@@ -52,6 +52,26 @@ void time_to_plist_date(VALUE time, string *output)
 
 void dump_node(VALUE obj, string *output);
 
+VALUE to_utf8_xml_text(VALUE obj)
+{
+  int idx = rb_enc_get_index(obj);
+  if (idx < 0)
+    rb_raise(rb_eTypeError, "unknown encoding");
+  if (idx == rb_utf8_encindex())
+  {
+    VALUE options = rb_hash_new();
+    rb_hash_aset(options, ID2SYM(rb_intern("xml")), ID2SYM(rb_intern("text")));
+    return rb_funcallv_kw(obj, rb_intern("encode"), 1, &options, RB_PASS_KEYWORDS);
+  }
+  else
+  {
+    VALUE options = rb_hash_new();
+    rb_hash_aset(options, ID2SYM(rb_intern("xml")), ID2SYM(rb_intern("text")));
+    VALUE args[] = {rb_enc_from_encoding(rb_utf8_encoding()), options};
+    return rb_funcallv_kw(obj, rb_intern("encode"), 2, args, RB_PASS_KEYWORDS);
+  }
+}
+
 VALUE array_each_block(VALUE obj, string *output)
 {
   dump_node(obj, output);
@@ -66,8 +86,11 @@ VALUE hash_each_block(VALUE pair, string *output)
   switch (TYPE(key))
   {
   case T_STRING:
-    string_concat(output, StringValueCStr(key));
+  {
+    VALUE encoded = to_utf8_xml_text(key);
+    string_concat(output, StringValueCStr(encoded));
     break;
+  }
   case T_SYMBOL:
   {
     VALUE str = rb_funcall(key, rb_intern("to_s"), 0);
@@ -75,8 +98,11 @@ VALUE hash_each_block(VALUE pair, string *output)
     break;
   }
   default:
-    rb_raise(rb_eTypeError, "Hash keys should be either String or Symbol");
+  {
+    VALUE encoded = to_utf8_xml_text(rb_funcall(key, rb_intern("to_s"), 0));
+    string_concat(output, StringValueCStr(encoded));
     break;
+  }
   }
   string_concat(output, (char *)"</key>");
   dump_node(value, output);
@@ -125,18 +151,7 @@ void dump_node(VALUE obj, string *output)
   case T_STRING:
   {
     int idx = rb_enc_get_index(obj);
-    if (idx < 0)
-      rb_raise(rb_eTypeError, "unknown encoding");
-    if (idx == rb_utf8_encindex())
-    {
-      string_concat(output, (char *)"<string>");
-      VALUE options = rb_hash_new();
-      rb_hash_aset(options, ID2SYM(rb_intern("xml")), ID2SYM(rb_intern("text")));
-      VALUE encoded = rb_funcallv_kw(obj, rb_intern("encode"), 1, &options, RB_PASS_KEYWORDS);
-      string_concat(output, StringValueCStr(encoded));
-      string_concat(output, (char *)"</string>");
-    }
-    else if (idx == rb_ascii8bit_encindex())
+    if (idx == rb_ascii8bit_encindex())
     {
       string_concat(output, (char *)"<data>");
       VALUE data = rb_funcall(
@@ -150,10 +165,7 @@ void dump_node(VALUE obj, string *output)
     else
     {
       string_concat(output, (char *)"<string>");
-      VALUE options = rb_hash_new();
-      rb_hash_aset(options, ID2SYM(rb_intern("xml")), ID2SYM(rb_intern("text")));
-      VALUE args[] = {rb_enc_from_encoding(rb_utf8_encoding()), options};
-      VALUE encoded = rb_funcallv_kw(obj, rb_intern("encode"), 2, args, RB_PASS_KEYWORDS);
+      VALUE encoded = to_utf8_xml_text(obj);
       string_concat(output, StringValueCStr(encoded));
       string_concat(output, (char *)"</string>");
     }

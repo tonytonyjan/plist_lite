@@ -90,6 +90,20 @@ class PlistLiteTest < Minitest::Test
     )
   end
 
+  def test_dump_hash_with_non_string_keys
+    assert_dump(
+      '<dict><key>[1, 2, 3]</key><integer>2</integer></dict>',
+      { [1, 2, 3] => 2 }
+    )
+  end
+
+  def test_dump_hash_with_reserved_character
+    assert_dump(
+      '<dict><key>&amp;</key><integer>2</integer></dict>',
+      { '&' => 2 }
+    )
+  end
+
   def test_dump_nested_objects
     assert_dump(
       '<dict><key>foo</key><array><integer>1</integer><integer>2</integer></array></dict>',
@@ -182,12 +196,6 @@ class PlistLiteTest < Minitest::Test
   def test_dump_raises_argument_error_for_unsupported_type
     assert_raises ArgumentError do
       PlistLite.dump(Object.new)
-    end
-  end
-
-  def test_dump_raise_type_error_when_key_is_not_string_or_symbol
-    assert_raises TypeError do
-      PlistLite.dump({ 1 => 2 })
     end
   end
 
