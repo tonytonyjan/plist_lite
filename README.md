@@ -43,7 +43,7 @@ PlistLite.load(plist)
 
 There is another competitor called [plist](https://github.com/patsplat/plist).
 
-I am not a big fan of reinventing wheels, but when I see all the other wheels are square-shaped, they leave me no choise.
+I am not a big fan of reinventing wheels, but when I see all the other wheels are square-shaped, they leave me no choice.
 
 Here are some reasons of why `plist_lite` is better than `plist`.
 
@@ -68,7 +68,7 @@ Here are some reasons of why `plist_lite` is better than `plist`.
 
    </details>
 
-3. `plist_lite` treat binary string as binary data while `plist` treats `IO` and `StringIO` instances as binary data. The designg of `plist` makes little sense.
+3. `plist_lite` treat binary string as binary data while `plist` treats `IO` and `StringIO` instances as binary data. The design of `plist` makes little sense.
 4. `plist` uses `Marshal#dump` to handle unsupported data types that makes it vulnerable.
 5. `plist_lite` knows how to handle XML encoding while `plist` doesn't.
 
