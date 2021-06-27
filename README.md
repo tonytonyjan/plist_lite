@@ -1,3 +1,5 @@
+![](https://github.com/tonytonyjan/plist_lite/actions/workflows/test.yml/badge.svg)
+
 # plist_lite
 
 `plist_lite` the fastest plist processor for Ruby written in C.
@@ -19,6 +21,23 @@ plist = PlistLite.dump({foo: 'bar', ary: [1,2,3], time: Time.at(0)})
 PlistLite.load(plist)
 # => {"foo"=>"bar", "ary"=>[1, 2, 3], "time"=>1970-01-01 00:00:00 UTC}
 ```
+
+### Supported Types
+
+- `Array` - `<array>`
+- `Hash` - `<dict>`
+- `Integer` - `<integer>`
+- `Float` - `<real>`
+- `TrueClass` - `<true/>`
+- `FalseClass` - `<falst/>`
+- `String`
+  - binary encoding - `<data>`
+  - other encodings - `<string>`
+- `Symbol` - `<string>`
+- `Time` - `<date>`
+- `DateTime` - `<date>`
+- `Date` - `<date>`
+  - avoid using this because it does not have time zone information like `Time` or `DateTime`.
 
 ## Why plist_lite?
 
