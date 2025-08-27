@@ -64,8 +64,7 @@ module PlistLite
           case key
           when String then output << "<key>#{key.encode(xml: :text)}</key>"
           when Symbol then output << "<key>#{key}</key>"
-          else
-            raise TypeError, 'Hash key should be String or Symbol'
+          else output << "<key>#{key}</key>"
           end
           dump_node(value, output)
         end
