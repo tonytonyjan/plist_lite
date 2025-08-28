@@ -10,8 +10,7 @@ Gem::Specification.new do |spec|
   spec.description =
     'plist_lite is the fastest plist processor for Ruby written in C.' \
     'It can convert Ruby object to XML plist (a.k.a. property list), vice versa.'
-  spec.platform = Gem::Platform::RUBY
-  spec.files = Dir['lib/**/*', 'ext/plist_lite/ext/ext.c']
+  spec.files = Dir['lib/*', 'ext/plist_lite/ext/ext.c']
   spec.extensions = ['ext/plist_lite/ext/extconf.rb']
   spec.homepage = 'https://github.com/tonytonyjan/plist_lite'
   spec.license = 'MIT'

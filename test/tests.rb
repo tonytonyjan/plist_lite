@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
-require 'plist_lite'
-
-class PlistLiteTest < Minitest::Test
+module Tests
   def test_dump_string
     assert_dump('<string>testdata</string>', 'testdata')
   end
