@@ -2,14 +2,13 @@
 
 # plist_lite
 
-`plist_lite` the fastest plist processor for Ruby written in C.
+`plist_lite` is the fastest plist processor for Ruby written in C.
 
-It can convert Ruby object to XML [plist (a.k.a. property list)](https://en.wikipedia.org/wiki/Property_list#macOS), vice versa.
+It converts Ruby objects to an XML [plist (a.k.a. property list)](https://en.wikipedia.org/wiki/Property_list#macOS), and vice versa.
 
 ## Usage
 
-`plist_lite` does one thing and does it well.
-It only has 2 API:
+`plist_lite` provides 2 APIs:
 
 - `PlistLite#dump(object)`
 - `PlistLite#load(plist_string)`
@@ -22,30 +21,30 @@ PlistLite.load(plist)
 # => {"foo"=>"bar", "ary"=>[1, 2, 3], "time"=>1970-01-01 00:00:00 UTC}
 ```
 
-### Supported Types
+### Supported Data Types
 
-- `Array` - `<array>`
-- `Hash` - `<dict>`
-- `Integer` - `<integer>`
-- `Float` - `<real>`
-- `TrueClass` - `<true/>`
-- `FalseClass` - `<falst/>`
-- `String`
-  - binary encoding - `<data>`
-  - other encodings - `<string>`
-- `Symbol` - `<string>`
-- `Time` - `<date>`
-- `DateTime` - `<date>`
-- `Date` - `<date>`
-  - avoid using this because it does not have time zone information like `Time` or `DateTime`.
+| Ruby Type                  | Plist Element |
+| -------------------------- | ------------- |
+| `Array`                    | `<array>`     |
+| `Hash`                     | `<dict>`      |
+| `Integer`                  | `<integer>`   |
+| `Float`                    | `<real>`      |
+| `TrueClass`                | `<true/>`     |
+| `FalseClass`               | `<false/>`    |
+| `String` (binary encoding) | `<data>`      |
+| `String` (other encodings) | `<string>`    |
+| `Symbol`                   | `<string>`    |
+| `Time`                     | `<date>`      |
+| `DateTime`                 | `<date>`      |
+| `Date`                     | `<date>`      |
 
-## Why plist_lite?
+* Avoid using `Date` because it does not have time zone information like `Time` or `DateTime`.
+
+## Compare to `plist` Gem
 
 There is another competitor called [plist](https://github.com/patsplat/plist).
 
-I am not a big fan of reinventing wheels, but when I see all the other wheels are square-shaped, they leave me no choice.
-
-Here are some reasons of why `plist_lite` is better than `plist`.
+Here are differences between `plist_lite` and `plist`:
 
 1. `plist_lite` is 5 times faster than `plist`, see [benchmark](#benchmark).
 2. `plist_lite` knows how to handle encoding while `plist` doesn't.
