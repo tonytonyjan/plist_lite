@@ -3,7 +3,7 @@
 Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.7'
   spec.name = 'plist_lite'
-  spec.version = '1.1.0'
+  spec.version = '1.2.0'
   spec.author = 'Weihang Jian'
   spec.email = 'tonytonyjan@gmail.com'
   spec.summary = 'plist_lite is the fastest plist processor for Ruby written in C.'
