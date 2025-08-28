@@ -1,15 +1,20 @@
-on: push
+name: Test
+on:
+  push:
+  pull_request:
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.7, 3.0]
+        ruby:
+          - "2.7"
+          - "3.4"
+          - head
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - run: bundle install
       - run: bundle exec rake compile test
