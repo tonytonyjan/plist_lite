@@ -10,7 +10,9 @@ module PlistLite
     )
   end.external_subset
 
-  class << self
+  # Defined in a module so that the C extension can override PlistLite.dump
+  # with a singleton method without triggering a method redefinition warning.
+  module PureRuby
     def load(source)
       doc = Nokogiri::XML::Document.parse(
         source, nil, nil,
@@ -94,4 +96,6 @@ module PlistLite
       end
     end
   end
+
+  extend PureRuby
 end
