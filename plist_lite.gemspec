@@ -14,9 +14,9 @@ Gem::Specification.new do |spec|
   spec.extensions = ['ext/plist_lite/ext/extconf.rb']
   spec.homepage = 'https://github.com/tonytonyjan/plist_lite'
   spec.license = 'MIT'
-  spec.add_runtime_dependency 'nokogiri', '~> 1.0'
-  spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'minitest', '~> 5.0'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rake-compiler', '~> 1.0'
+  spec.add_runtime_dependency 'nokogiri'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'minitest'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rake-compiler'
 end
